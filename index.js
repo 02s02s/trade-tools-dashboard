@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, AttachmentBuilder } = require('discord.js');
 const axios = require('axios');
 
 const client = new Client({
@@ -681,7 +681,10 @@ client.on('interactionCreate', async interaction => {
         const mainEmbed = new EmbedBuilder()
           .setTitle('📈 Market Data Dashboard')
           .setDescription('Please select a button below to view more from our data dashboards.')
-          .setColor(0x0099ff);
+          .setColor(0x0099ff)
+          .setImage('attachment://image.png');
+        
+        const attachment = new AttachmentBuilder('./image.png', { name: 'image.png' });
         
         const row = new ActionRowBuilder()
           .addComponents(
@@ -691,19 +694,19 @@ client.on('interactionCreate', async interaction => {
               .setEmoji('📈')
               .setStyle(ButtonStyle.Success),
             new ButtonBuilder()
-              .setCustomId('menu_volume')
-              .setLabel('Top Volume')
-              .setEmoji('📊')
-              .setStyle(ButtonStyle.Primary),
-            new ButtonBuilder()
               .setCustomId('menu_funding')
               .setLabel('Funding Rates')
               .setEmoji('💰')
-              .setStyle(ButtonStyle.Secondary)
+              .setStyle(ButtonStyle.Secondary),
+            new ButtonBuilder()
+              .setCustomId('menu_volume')
+              .setLabel('Top Volume')
+              .setEmoji('📊')
+              .setStyle(ButtonStyle.Primary)
           );
         
         if (!interaction.replied && !interaction.deferred) {
-          await interaction.reply({ embeds: [mainEmbed], components: [row] });
+          await interaction.reply({ embeds: [mainEmbed], components: [row], files: [attachment] });
         }
       }
     }
@@ -743,7 +746,7 @@ client.on('interactionCreate', async interaction => {
       else if (customId === 'menu_volume') {
         const mainEmbed = new EmbedBuilder()
           .setTitle('📊 Top Volume Dashboard')
-          .setDescription('Click a timeframe below to view coins by volume and price movement.\n🟢 Green = Top 10 Volume + Increasing Price\n🔴 Red = Top 10 Volume + Decreasing Price\n\nExcludes top 20 most consistent volume coins.')
+          .setDescription('Click a timeframe below to view the Top Volume coins by price movement')
           .setColor(0x3498db);
         
         const row1 = new ActionRowBuilder().addComponents(
