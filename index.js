@@ -556,7 +556,7 @@ function createGainersEmbed(title, data, isGainers) {
       minute: '2-digit',
       hour12: true 
     });
-    embed.setFooter({ text: `Updated every 5 minutes • Today at ${timeStr}` });
+    embed.setFooter({ text: `Updated every 5 minutes • Today at ${timeStr} • discord.gg/unityacademy` });
   }
   
   return embed;
@@ -599,7 +599,7 @@ function createVolumeEmbed(timeframe, data, volumeType) {
       minute: '2-digit',
       hour12: true
     });
-    embed.setFooter({ text: `Powered by Bybit • Updates every 5min • Last update: ${timeStr}` });
+    embed.setFooter({ text: `Powered by Bybit • Updates every 5min • Last update: ${timeStr} • discord.gg/unityacademy` });
   }
   
   return embed;
@@ -611,7 +611,13 @@ function createFundingEmbed(title, data, isPositive) {
   
   const lines = data.map((item, idx) => {
     const rank = (idx + 1).toString().padStart(2);
-    const symbol = item.symbol.padEnd(15);
+    
+    let symbolDisplay = item.symbol.replace('USDT', '');
+    if (symbolDisplay.endsWith('PERP')) {
+      symbolDisplay = symbolDisplay.slice(0, -4);
+    }
+    
+    const symbol = symbolDisplay.padEnd(15);
     const sign = item.fundingRatePct >= 0 ? ' ' : '';
     const fundingStr = `${sign}${item.fundingRatePct.toFixed(4)}%`.padStart(10);
     const priceStr = formatPrice(item.lastPrice);
@@ -630,7 +636,7 @@ function createFundingEmbed(title, data, isPositive) {
       minute: '2-digit',
       hour12: true
     });
-    embed.setFooter({ text: `Powered by Bybit • Updates every 60s • Last update: ${timeStr}` });
+    embed.setFooter({ text: `Powered by Bybit • Updates every 60s • Last update: ${timeStr} • discord.gg/unityacademy` });
   }
   
   return embed;
@@ -718,7 +724,10 @@ client.on('interactionCreate', async interaction => {
         const mainEmbed = new EmbedBuilder()
           .setTitle('📊 Top Gainers & Losers Dashboard')
           .setDescription('Click a timeframe below to view the Top Gainers & Losers for USDT perpetual contracts')
-          .setColor(0x0099ff);
+          .setColor(0x0099ff)
+          .setImage('attachment://gnl.png');
+        
+        const attachment = new AttachmentBuilder('./gnl.png', { name: 'gnl.png' });
         
         const row1 = new ActionRowBuilder()
           .addComponents(
@@ -739,7 +748,7 @@ client.on('interactionCreate', async interaction => {
           );
         
         if (!interaction.replied && !interaction.deferred) {
-          await interaction.reply({ embeds: [mainEmbed], components: [row1, row2], ephemeral: true });
+          await interaction.reply({ embeds: [mainEmbed], components: [row1, row2], files: [attachment], ephemeral: true });
         }
       }
       
@@ -747,7 +756,10 @@ client.on('interactionCreate', async interaction => {
         const mainEmbed = new EmbedBuilder()
           .setTitle('📊 Top Volume Dashboard')
           .setDescription('Click a timeframe below to view the Top Volume coins by price movement')
-          .setColor(0x3498db);
+          .setColor(0x3498db)
+          .setImage('attachment://tvt.png');
+        
+        const attachment = new AttachmentBuilder('./tvt.png', { name: 'tvt.png' });
         
         const row1 = new ActionRowBuilder().addComponents(
           new ButtonBuilder().setCustomId('volume_gaining_5m').setLabel('5m').setStyle(ButtonStyle.Success),
@@ -766,7 +778,7 @@ client.on('interactionCreate', async interaction => {
         );
         
         if (!interaction.replied && !interaction.deferred) {
-          await interaction.reply({ embeds: [mainEmbed], components: [row1, row2], ephemeral: true });
+          await interaction.reply({ embeds: [mainEmbed], components: [row1, row2], files: [attachment], ephemeral: true });
         }
       }
       
@@ -774,7 +786,10 @@ client.on('interactionCreate', async interaction => {
         const mainEmbed = new EmbedBuilder()
           .setTitle('💰 Funding Rates Dashboard')
           .setDescription('Click a button below to view the top positive or negative funding rates for perpetual contracts')
-          .setColor(0x0099ff);
+          .setColor(0x0099ff)
+          .setImage('attachment://frt.png');
+        
+        const attachment = new AttachmentBuilder('./frt.png', { name: 'frt.png' });
         
         const row = new ActionRowBuilder()
           .addComponents(
@@ -789,7 +804,7 @@ client.on('interactionCreate', async interaction => {
           );
         
         if (!interaction.replied && !interaction.deferred) {
-          await interaction.reply({ embeds: [mainEmbed], components: [row], ephemeral: true });
+          await interaction.reply({ embeds: [mainEmbed], components: [row], files: [attachment], ephemeral: true });
         }
       }
 
