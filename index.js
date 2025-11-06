@@ -688,7 +688,8 @@ client.on('interactionCreate', async interaction => {
           .setTitle('📈 Market Data Dashboard')
           .setDescription('Please select a button below to view more from our data dashboards.')
           .setColor(0x0099ff)
-          .setImage('attachment://image.png');
+          .setImage('attachment://image.png')
+          .setFooter({ text: 'discord.gg/unityacademy' });
         
         const attachment = new AttachmentBuilder('./image.png', { name: 'image.png' });
         
@@ -725,7 +726,8 @@ client.on('interactionCreate', async interaction => {
           .setTitle('📊 Top Gainers & Losers Dashboard')
           .setDescription('Click a timeframe below to view the Top Gainers & Losers for USDT perpetual contracts')
           .setColor(0x0099ff)
-          .setImage('attachment://gnl.png');
+          .setImage('attachment://gnl.png')
+          .setFooter({ text: 'discord.gg/unityacademy' });
         
         const attachment = new AttachmentBuilder('./gnl.png', { name: 'gnl.png' });
         
@@ -757,7 +759,8 @@ client.on('interactionCreate', async interaction => {
           .setTitle('📊 Top Volume Dashboard')
           .setDescription('Click a timeframe below to view the Top Volume coins by price movement')
           .setColor(0x3498db)
-          .setImage('attachment://tvt.png');
+          .setImage('attachment://tvt.png')
+          .setFooter({ text: 'discord.gg/unityacademy' });
         
         const attachment = new AttachmentBuilder('./tvt.png', { name: 'tvt.png' });
         
@@ -787,7 +790,8 @@ client.on('interactionCreate', async interaction => {
           .setTitle('💰 Funding Rates Dashboard')
           .setDescription('Click a button below to view the top positive or negative funding rates for perpetual contracts')
           .setColor(0x0099ff)
-          .setImage('attachment://frt.png');
+          .setImage('attachment://frt.png')
+          .setFooter({ text: 'discord.gg/unityacademy' });
         
         const attachment = new AttachmentBuilder('./frt.png', { name: 'frt.png' });
         
